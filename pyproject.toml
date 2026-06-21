@@ -1,0 +1,15 @@
+[project]
+name = "beam_analysis"
+version = "0.1.0"
+description = "Reproducibility code for the beam manuscript figures"
+requires-python = ">=3.10"
+# beam is installed from its source checkout (make setup, or pip install -e ../beam),
+# not from PyPI, where the name belongs to an unrelated package.
+dependencies = [
+    "matplotlib",
+    "numpy",
+    "scipy",
+]
+
+[tool.ruff]
+line-length = 100
