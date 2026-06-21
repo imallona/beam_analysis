@@ -66,9 +66,7 @@ def _consensus_ranks(ib, published):
         )
     )
     columns = [f"{b}\n(reported)" for b in BENCH] + ["beam\nconsensus"]
-    ranks = np.array(
-        [[published[b][m] for b in BENCH] + [int(consensus[m])] for m in CANON]
-    )
+    ranks = np.array([[published[b][m] for b in BENCH] + [int(consensus[m])] for m in CANON])
     return tuple(columns), ranks
 
 
@@ -167,7 +165,14 @@ def build() -> Figure:
     )
     ax_d = bottom_right.axes[0]
     ax_d.set_title("same pancreas data, two pipelines")
-    ax_d.text(0.5, 0.02, f"cross-pipeline Spearman {pc.spearman():+.2f}", transform=ax_d.transAxes,
-              ha="center", va="bottom", fontsize=6)
+    ax_d.text(
+        0.5,
+        0.02,
+        f"cross-pipeline Spearman {pc.spearman():+.2f}",
+        transform=ax_d.transAxes,
+        ha="center",
+        va="bottom",
+        fontsize=6,
+    )
     C.panel_label(bottom_right, "d")
     return fig

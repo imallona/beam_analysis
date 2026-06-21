@@ -121,8 +121,14 @@ def variance_bars(host, report, *, annotate: bool = True, title: str | None = No
     ax.bar(x, values, color=colors)
     if annotate:
         for xi, v in zip(x, values, strict=True):
-            ax.annotate(f"{v:.3f}", (xi, v), textcoords="offset points", xytext=(0, 2),
-                        ha="center", fontsize=6)
+            ax.annotate(
+                f"{v:.3f}",
+                (xi, v),
+                textcoords="offset points",
+                xytext=(0, 2),
+                ha="center",
+                fontsize=6,
+            )
     ax.set_xticks(x)
     ax.set_xticklabels(names, rotation=20, ha="right")
     ax.set_ylim(0, 1)
@@ -146,8 +152,13 @@ def grouped_rank_bars(host, methods, series, *, ylabel: str, title: str | None =
     palette = [DATA_COLOR, ANALYST_COLOR, BENCHMARKER_COLOR, "#aa3377"]
     for i, (label, values) in enumerate(series):
         offset = (i - (n - 1) / 2.0) * width
-        ax.bar(x + offset, np.asarray(values, dtype=float), width=width,
-               label=label, color=palette[i % len(palette)])
+        ax.bar(
+            x + offset,
+            np.asarray(values, dtype=float),
+            width=width,
+            label=label,
+            color=palette[i % len(palette)],
+        )
     ax.set_xticks(x)
     ax.set_xticklabels(methods, rotation=20, ha="right")
     ax.set_ylabel(ylabel)
@@ -214,8 +225,14 @@ def openproblems_metric_quality():
     keep = (~np.isnan(tensor).all(axis=1)).all(axis=1)
     tensor = tensor[keep]
     bio = {
-        "ari", "nmi", "asw_label", "isolated_label_f1", "isolated_label_asw",
-        "cell_cycle_conservation", "hvg_overlap", "clisi",
+        "ari",
+        "nmi",
+        "asw_label",
+        "isolated_label_f1",
+        "isolated_label_asw",
+        "cell_cycle_conservation",
+        "hvg_overlap",
+        "clisi",
     }
     groups = ["bio" if m in bio else "batch" for m in metrics]
     pol = polarities_for(metrics)
