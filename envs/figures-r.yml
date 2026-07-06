@@ -1,0 +1,36 @@
+name: beam-figures-r
+# Environment for the R backend of the manuscript figures (make figures).
+# Python and R live in one env: reticulate calls the Python beam package for the
+# numbers, and ggplot2 and patchwork draw the panels. Build it with conda or
+# mamba, then install beam and rbeam into it:
+#   mamba env create -f envs/figures-r.yml
+#   conda activate beam-figures-r
+#   pip install -e ../beam                     # the beam Python package
+#   R CMD INSTALL ../beam/r/beam               # the rbeam R package
+#
+# Known-bad versions: reticulate before 1.40 cannot convert numpy 2.x arrays and
+# recurses until the R C stack overflows, which crashes every beam plot that
+# reads a score matrix ("C stack usage ... is too close to the limit"). The pin
+# below keeps reticulate at 1.40 or newer so numpy 2.x converts cleanly; rbeam
+# also warns at run time if it sees the bad pair. If you must stay on an older
+# reticulate, pin numpy below 2 instead.
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.12
+  - pip
+  - numpy>=1.26
+  - scipy
+  - r-base>=4.2
+  - r-reticulate>=1.40
+  - r-ggplot2>=3.4
+  - r-patchwork
+  # Heterogeneity models for figures 4 and 5 (lme4, netmeta and friends).
+  - r-lme4>=1.1
+  - r-glmmtmb>=1.1
+  - r-psychotree>=0.16
+  - r-partykit>=1.2
+  - r-plackettluce>=0.4
+  - r-qvcalc>=1.0
+  - r-meta>=7.0
+  - r-netmeta>=2.9
