@@ -1,0 +1,477 @@
+{
+  "attribution": {
+    "settings": [
+      {
+        "analyst_choice_share": 0.08482131645696779,
+        "basis": "rank_sensitivity",
+        "benchmarker_share": 0.0,
+        "dataset_share": 0.9151786835430322,
+        "label": "Duo\n(within benchmark)"
+      },
+      {
+        "analyst_choice_share": 0.0,
+        "basis": "source_variance",
+        "benchmarker_share": 0.4193286582850391,
+        "dataset_share": 0.5806713417149609,
+        "label": "pooled\n(cross-benchmark)"
+      },
+      {
+        "analyst_choice_share": 1.0,
+        "basis": "same_data_contrast",
+        "benchmarker_share": 0.0,
+        "dataset_share": 0.0,
+        "label": "pancreas\n(same data)"
+      }
+    ]
+  },
+  "duo": {
+    "ari_critical_difference": {
+      "alpha": 0.05,
+      "average_ranks": {
+        "CIDR": 10.1875,
+        "FlowSOM": 12.25,
+        "PCAHC": 7.0625,
+        "PCAKmeans": 9.5625,
+        "RaceID2": 9.75,
+        "RtsneKmeans": 5.5625,
+        "SAFE": 7.4375,
+        "SC3": 3.1875,
+        "SC3svm": 5.4375,
+        "Seurat": 5.125,
+        "TSCAN": 8.4375,
+        "ascend": 7.0625,
+        "monocle": 7.5,
+        "pcaReduce": 6.4375
+      },
+      "cliques": [
+        [
+          "SC3",
+          "Seurat",
+          "SC3svm",
+          "RtsneKmeans",
+          "pcaReduce",
+          "PCAHC",
+          "ascend",
+          "SAFE",
+          "monocle",
+          "TSCAN",
+          "PCAKmeans",
+          "RaceID2",
+          "CIDR"
+        ],
+        [
+          "SC3svm",
+          "RtsneKmeans",
+          "pcaReduce",
+          "PCAHC",
+          "ascend",
+          "SAFE",
+          "monocle",
+          "TSCAN",
+          "PCAKmeans",
+          "RaceID2",
+          "CIDR",
+          "FlowSOM"
+        ]
+      ],
+      "critical_difference": 7.014594793124739,
+      "friedman_pvalue": 0.0003217697555258242,
+      "friedman_statistic": 37.69800307219662,
+      "n_datasets": 8,
+      "n_tools": 14
+    },
+    "metrics": [
+      "ari",
+      "runtime",
+      "shannon_entropy_diff"
+    ],
+    "n_datasets": 12,
+    "n_methods": 14,
+    "rank_sensitivity": {
+      "aggregations": [
+        "saw",
+        "topsis",
+        "vikor",
+        "promethee_ii",
+        "comet"
+      ],
+      "datasets": [
+        "Koh",
+        "KohTCC",
+        "Kumar",
+        "KumarTCC",
+        "SimKumar4easy",
+        "SimKumar4hard",
+        "SimKumar8hard",
+        "Trapnell",
+        "TrapnellTCC",
+        "Zhengmix4eq",
+        "Zhengmix4uneq",
+        "Zhengmix8eq"
+      ],
+      "distinct_top_tools": [
+        "CIDR",
+        "monocle",
+        "PCAHC",
+        "PCAKmeans",
+        "RtsneKmeans",
+        "Seurat"
+      ],
+      "factor_shares": {
+        "aggregation": 0.03292024986107745,
+        "dataset": 0.7342761695422104,
+        "weighting": 0.03513451634308034
+      },
+      "headline_rank_span": 10,
+      "headline_tool": "Seurat",
+      "headline_top_fraction": 0.5041666666666667,
+      "interaction_share": 0.1976690642536318,
+      "most_frequent_top_fraction": 0.5,
+      "most_frequent_top_tool": "Seurat",
+      "n_combinations": 240,
+      "weightings": [
+        "equal",
+        "entropy",
+        "std",
+        "critic"
+      ]
+    },
+    "top_tool": "Seurat"
+  },
+  "gptcelltype": {
+    "critical_difference": {
+      "alpha": 0.05,
+      "average_ranks": {
+        "CellMarker2.0": 4.763888888888889,
+        "GPT-3.5": 3.138888888888889,
+        "GPT-4": 1.1666666666666667,
+        "ScType": 2.9444444444444446,
+        "SingleR": 2.986111111111111
+      },
+      "cliques": [
+        [
+          "ScType",
+          "SingleR",
+          "GPT-3.5"
+        ]
+      ],
+      "critical_difference": 1.016581486757981,
+      "friedman_pvalue": 4.2128717415612076e-20,
+      "friedman_statistic": 97.0317002881845,
+      "n_datasets": 36,
+      "n_tools": 5
+    },
+    "mean_agreement": {
+      "CellMarker2.0": 0.24858055159941495,
+      "GPT-3.5": 0.436131221862962,
+      "GPT-4": 0.6032636661200456,
+      "ScType": 0.449661776673832,
+      "SingleR": 0.45040416954737517
+    },
+    "methods": [
+      "GPT-4",
+      "GPT-3.5",
+      "CellMarker2.0",
+      "SingleR",
+      "ScType"
+    ],
+    "n_complete_datasets": 36,
+    "n_datasets": 54
+  },
+  "integration": {
+    "method_benchmark_share": {
+      "five": 0.4193286582850391,
+      "four": 0.22571245604620638,
+      "three": 0.16658404805219237
+    },
+    "network_meta_analysis": {
+      "df_heterogeneity": 122.0,
+      "df_inconsistency": 19.0,
+      "df_total": 141.0,
+      "effect": [
+        0.0,
+        -1.10889995311791,
+        -1.34525569780283,
+        -1.3637729712786,
+        -0.50299816580882
+      ],
+      "effect_lower": [
+        0.0,
+        -1.54113888889847,
+        -1.79735343724147,
+        -1.93328961974962,
+        -0.939689228997283
+      ],
+      "effect_se": [
+        0.0,
+        0.220534121642033,
+        0.23066635050681,
+        0.290575057992545,
+        0.222805656957489
+      ],
+      "effect_upper": [
+        0.0,
+        -0.676661017337353,
+        -0.893157958364194,
+        -0.794256322807571,
+        -0.0663071026203558
+      ],
+      "i2": 0.674550282072122,
+      "n_comparisons": 307,
+      "n_studies": 51,
+      "n_treatments": 5,
+      "pscore": [
+        0.00299700065182852,
+        0.583945026699012,
+        0.831069069431167,
+        0.83378614645959,
+        0.248202756758402
+      ],
+      "pval_heterogeneity": 4.28622077081331e-21,
+      "pval_inconsistency": 1.51817071714821e-13,
+      "pval_total": 1.83982181961439e-31,
+      "q_heterogeneity": 330.231765381292,
+      "q_inconsistency": 103.014884509019,
+      "q_total": 433.246649890311,
+      "reference": "combat",
+      "sm": "MD",
+      "tau": 1.09105679888773,
+      "tau2": 1.19040493839914,
+      "treatments": [
+        "combat",
+        "fastmnn",
+        "harmony",
+        "liger",
+        "scanorama"
+      ],
+      "warnings": [
+        "Comparisons with missing TE / seTE or zero seTE not considered in network meta-analysis."
+      ]
+    },
+    "pancreas_spearman": 0.46169025843831935,
+    "source_variance_five": {
+      "aic": 484.618054449099,
+      "formula": "score ~ method + (1 | benchmark) + (1 | benchmark:dataset) +      (1 | method:benchmark)",
+      "loglik": -233.309027224549,
+      "lrt_pvalue": {
+        "benchmark": 0.353993040907582,
+        "benchmark:dataset": 0.5,
+        "method:benchmark": 6.85888683879399e-15
+      },
+      "lrt_statistic": {
+        "benchmark": 0.140296849602919,
+        "benchmark:dataset": 0.0,
+        "method:benchmark": 59.273990284314
+      },
+      "method_effect_se": [
+        0.309136491430429,
+        0.30913649143043,
+        0.284815343568296,
+        0.324281346159119,
+        0.284815343568297
+      ],
+      "method_effects": [
+        3.55608485819362,
+        2.43658167545596,
+        2.30372753726354,
+        2.48933527111722,
+        3.09857530224198
+      ],
+      "method_names": [
+        "combat",
+        "fastmnn",
+        "harmony",
+        "liger",
+        "scanorama"
+      ],
+      "n_benchmarks": 5,
+      "n_datasets": 52,
+      "n_methods": 5,
+      "n_obs": 226,
+      "singular": true,
+      "variance_components": {
+        "Residual": 0.382593569459919,
+        "benchmark": 0.0347969243278193,
+        "benchmark:dataset": 0.0,
+        "method:benchmark": 0.301416280032049
+      },
+      "warnings": []
+    }
+  },
+  "m4": {
+    "metrics": [
+      "smape",
+      "mase"
+    ],
+    "n_datasets": 6,
+    "n_methods": 25,
+    "rank_sensitivity": {
+      "aggregations": [
+        "saw",
+        "topsis",
+        "vikor",
+        "promethee_ii",
+        "comet"
+      ],
+      "datasets": [
+        "Yearly",
+        "Quarterly",
+        "Monthly",
+        "Weekly",
+        "Daily",
+        "Hourly"
+      ],
+      "distinct_top_tools": [
+        "Smyl",
+        "Montero-Manso",
+        "Pawlikowski",
+        "Doornik",
+        "Darin"
+      ],
+      "factor_shares": {
+        "aggregation": 0.0026986963015738215,
+        "dataset": 0.963193310296449,
+        "weighting": 0.0021734205000200997
+      },
+      "headline_rank_span": 17,
+      "headline_tool": "Smyl",
+      "headline_top_fraction": 0.3333333333333333,
+      "interaction_share": 0.031934572901956886,
+      "most_frequent_top_fraction": 0.3333333333333333,
+      "most_frequent_top_tool": "Smyl",
+      "n_combinations": 120,
+      "weightings": [
+        "equal",
+        "entropy",
+        "std",
+        "critic"
+      ]
+    }
+  },
+  "metric_sets": {
+    "alpha_by_group": {
+      "batch": 0.6176532982432561,
+      "bio": 0.8511775085887301
+    },
+    "alpha_if_dropped": [
+      [
+        "ari",
+        "bio",
+        0.7981922039656981
+      ],
+      [
+        "asw_label",
+        "bio",
+        0.8494282486782585
+      ],
+      [
+        "cell_cycle_conservation",
+        "bio",
+        0.8281393479621173
+      ],
+      [
+        "clisi",
+        "bio",
+        0.8380402055633119
+      ],
+      [
+        "isolated_label_asw",
+        "bio",
+        0.8401881529980921
+      ],
+      [
+        "isolated_label_f1",
+        "bio",
+        0.8583096112783586
+      ],
+      [
+        "nmi",
+        "bio",
+        0.7917390387087733
+      ],
+      [
+        "asw_batch",
+        "batch",
+        0.549010828626036
+      ],
+      [
+        "graph_connectivity",
+        "batch",
+        0.4647132471301238
+      ],
+      [
+        "ilisi",
+        "batch",
+        0.4710397195899768
+      ],
+      [
+        "kbet",
+        "batch",
+        0.6198852904802296
+      ],
+      [
+        "pcr",
+        "batch",
+        0.6708927285644785
+      ]
+    ],
+    "convergent_by_group": {
+      "batch": 0.24419092268819162,
+      "bio": 0.44966020056726236
+    },
+    "groups": {
+      "ari": "bio",
+      "asw_batch": "batch",
+      "asw_label": "bio",
+      "cell_cycle_conservation": "bio",
+      "clisi": "bio",
+      "graph_connectivity": "batch",
+      "ilisi": "batch",
+      "isolated_label_asw": "bio",
+      "isolated_label_f1": "bio",
+      "kbet": "batch",
+      "nmi": "bio",
+      "pcr": "batch"
+    },
+    "kaiser_components_by_group": {
+      "batch": 2,
+      "bio": 2
+    },
+    "mean_convergent": 0.38337978834820735,
+    "mean_discriminant": 0.29695887011814076,
+    "metrics": [
+      "ari",
+      "asw_batch",
+      "asw_label",
+      "cell_cycle_conservation",
+      "clisi",
+      "graph_connectivity",
+      "ilisi",
+      "isolated_label_asw",
+      "isolated_label_f1",
+      "kbet",
+      "nmi",
+      "pcr"
+    ],
+    "n_observations": 84,
+    "parallel_analysis": {
+      "n_iter": 500,
+      "seed": 0
+    },
+    "parallel_components_by_group": {
+      "batch": 1,
+      "bio": 2
+    },
+    "pc1_explained_by_group": {
+      "batch": 0.42202704108156014,
+      "bio": 0.5435514678309818
+    }
+  },
+  "software": {
+    "beam": "0.2.0",
+    "numpy": "2.5.3",
+    "pymcdm": "1.4.0",
+    "python": "3.14.7",
+    "scipy": "1.18.1"
+  }
+}

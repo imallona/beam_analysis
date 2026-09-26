@@ -9,7 +9,7 @@
 # every beam.rank and rank_sensitivity call seeds at zero. Figures 4 and 5 fit R
 # models (lme4, netmeta) through beam.heterogeneity; when the toolchain is absent
 # they are skipped with a message rather than failing the run. Figure 1 is a
-# hand-drawn schematic and is not produced here.
+# Graphviz schematic (make figure1).
 #
 # The Python matplotlib figures under paper_figures/ (built by
 # make_paper_figures.py) stay available as a second backend.

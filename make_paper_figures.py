@@ -11,7 +11,7 @@ the only randomness (SMAA, parallel analysis) is seeded inside beam. Figures 4
 and 5 call the R toolchain (lme4, netmeta) through beam.heterogeneity; when R is
 absent they are skipped with a message rather than failing the run.
 
-Figure 1 is a hand-drawn schematic and is not produced here.
+Figure 1 is a Graphviz schematic (make figure1).
 """
 
 from __future__ import annotations

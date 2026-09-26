@@ -19,9 +19,11 @@ build_figure2 <- function() {
   cliques <- lapply(py_to_r(cd$cliques), function(g) names[unlist(g) + 1])
 
   funky <- panel_small(beam_funky_heatmap(d$run, show_smaa = FALSE,
-                                          show_aggregation = TRUE, cliques = cliques), "bottom")
+                                          show_aggregation = TRUE, cliques = cliques), "bottom") &
+    theme(axis.text.x.top = element_text(angle = 90, hjust = 0, vjust = 0.5, size = 5.5),
+          axis.title.x = element_text(size = 6))
   spec <- panel_small(beam_plot(curve, "specification_curve"), "bottom") &
-    guides(fill = guide_legend(nrow = 2, byrow = TRUE))
+    guides(fill = guide_legend(nrow = 3, byrow = TRUE))
   varbars <- panel_small(beam_plot(rs, "rank_sensitivity"))
 
   bottom <- (wrap_elements(full = spec) | varbars) + plot_layout(widths = c(1.9, 1.0))

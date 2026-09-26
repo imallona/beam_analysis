@@ -1,0 +1,25 @@
+digraph beam {
+  rankdir=LR;
+  graph [fontname="Helvetica", fontsize=9, nodesep=0.25, ranksep=0.35];
+  node [fontname="Helvetica", fontsize=9, shape=box, style="rounded", color="#444444", margin="0.12,0.06"];
+  edge [color="#444444", arrowsize=0.6];
+
+  scores [label="scores\nmethod x dataset x metric"];
+  cards [label="metric cards\nscale, polarity, range,\nbaseline, normalization"];
+  validate [label="validation\nscale type,\nallowed transformations"];
+  normalize [label="normalization\nper card"];
+  weight [label="weighting\nequal, entropy, SD,\nCRITIC, MEREC, AHP"];
+  aggregate [label="aggregation\nSAW, TOPSIS, VIKOR,\nPROMETHEE II, COMET"];
+  ranking [label="ranking"];
+  diagnostics [label="diagnostics\nrank sensitivity, critical difference,\npairwise comparison, heterogeneity,\nmetric sets"];
+  manifest [label="manifest\ninput and card hashes,\nparameters, versions"];
+  report [label="report"];
+
+  scores -> validate;
+  cards -> validate;
+  validate -> normalize -> weight -> aggregate -> ranking;
+  ranking -> diagnostics;
+  ranking -> manifest;
+  diagnostics -> report;
+  ranking -> report;
+}

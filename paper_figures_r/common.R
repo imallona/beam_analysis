@@ -64,14 +64,13 @@ mm <- function(value_mm) value_mm / MM_PER_INCH
 # use one key: analyst choice red, data blue, benchmarker green.
 ROLE <- beam_palette(roles = TRUE)
 
-# rbeam panels are sized to be saved on their own, so a multi-panel figure has to
-# shrink their fonts and legends to fit column width. panel_small applies that to
-# a panel (a ggplot or a nested patchwork), and short titles keep the panels from
-# overrunning their tags. legend is "none", "right", or "bottom".
+# rbeam panels are sized to be saved on their own, so a multi-panel figure
+# shrinks their fonts and legends to fit column width and drops their titles,
+# which the figure legend states. legend is "none", "right", or "bottom".
 panel_small <- function(p, legend = "none") {
   p & theme(
-    plot.title = element_text(size = 6.5),
-    plot.subtitle = element_text(size = 6),
+    plot.title = element_blank(),
+    plot.subtitle = element_blank(),
     axis.title = element_text(size = 6),
     axis.text = element_text(size = 5.5),
     legend.position = legend,

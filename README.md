@@ -22,7 +22,7 @@ Use reticulate 1.40 or newer. Earlier versions cannot convert numpy 2.x arrays a
 
 ## Figures
 
-- 1: schematic, drawn by hand, not built here.
+- 1: schematic, `figure1/fig1_design.dot`, drawn with Graphviz (`make figure1`).
 - 2 (`figure2_duo`): Duo 2018 clustering, a stable leader over an unstable lower order; the funky heatmap draws the Friedman-Nemenyi cliques as brackets.
 - 3 (`figure3_domains`): M4 forecasting and GPTCelltype, variance re-partitioning across domains.
 - 4 (`figure4_integration`): integration benchmarks disagree; a same-data contrast separates the analyst's choices from the data (needs R).
