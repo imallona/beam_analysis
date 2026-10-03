@@ -53,6 +53,7 @@ def rank_sensitivity_summary(report):
 
     curve = specification_curve(report)
     tools = report.tool_names
+    headline_ranks = [spec.ranks[report.headline_tool] for spec in curve.specifications]
     return {
         "weightings": list(report.weightings),
         "aggregations": list(report.methods),
@@ -63,6 +64,8 @@ def rank_sensitivity_summary(report):
         "headline_tool": tools[report.headline_tool],
         "headline_top_fraction": report.headline_top_fraction,
         "headline_rank_span": report.headline_rank_span,
+        "headline_best_rank": min(headline_ranks),
+        "headline_worst_rank": max(headline_ranks),
         "most_frequent_top_tool": tools[curve.most_frequent_top_tool],
         "most_frequent_top_fraction": curve.most_frequent_top_fraction,
         "distinct_top_tools": names(curve.distinct_top_tools, tools),
@@ -83,6 +86,22 @@ def critical_difference_summary(report):
     }
 
 
+def aggregation_max_rank_span(run):
+    """Largest difference between the best and worst rank of a method over the aggregations."""
+    from beam.mcda import aggregation_agreement
+
+    context = run.context
+    report = aggregation_agreement(
+        run.matrix,
+        context.polarity,
+        normalization=list(context.normalization),
+        bounds=list(context.bounds),
+        baselines=list(context.baselines),
+        targets=list(context.targets),
+    )
+    return int(np.max(np.asarray(report.rank_high) - np.asarray(report.rank_low)))
+
+
 def duo_numbers():
     from beam.mcda import critical_difference
 
@@ -95,6 +114,8 @@ def duo_numbers():
         "n_methods": len(duo.method_names),
         "n_datasets": len(duo.dataset_names),
         "top_tool": run.top_tool,
+        "leave_one_dataset_out_max_rank_shift": run.leave_one_dataset_out.max_rank_shift,
+        "aggregation_max_rank_span": aggregation_max_rank_span(run),
         "rank_sensitivity": rank_sensitivity_summary(C.duo_rank_sensitivity()),
         "ari_critical_difference": critical_difference_summary(nemenyi),
     }
@@ -142,6 +163,7 @@ def metric_set_numbers():
         "metrics": list(validity.metric_ids),
         "groups": dict(zip(validity.metric_ids, validity.groups, strict=True)),
         "n_observations": validity.n_observations,
+        "n_methods": validity.n_observations // 6,
         "mean_convergent": validity.mean_convergent,
         "mean_discriminant": validity.mean_discriminant,
         "convergent_by_group": plain(validity.convergent_by_group),
@@ -182,10 +204,44 @@ def attribution_numbers():
     return plain(_attribution_report())
 
 
+def beam_commit():
+    import subprocess
+
+    import beam
+
+    source = Path(beam.__file__).resolve().parent
+    result = subprocess.run(
+        ["git", "-C", str(source), "rev-parse", "--short", "HEAD"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    return result.stdout.strip() or None
+
+
+def r_versions():
+    import subprocess
+
+    code = (
+        'cat(R.version$major, ".", R.version$minor, "\\n", sep = "");'
+        'for (p in c("lme4", "netmeta", "meta"))'
+        ' cat(p, as.character(packageVersion(p)), "\\n")'
+    )
+    result = subprocess.run(["Rscript", "-e", code], capture_output=True, text=True, check=False)
+    lines = result.stdout.split("\n")
+    if result.returncode != 0 or not lines[0]:
+        return {}
+    versions = {"R": lines[0]}
+    versions.update(dict(line.split() for line in lines[1:] if line.strip()))
+    return versions
+
+
 def software_versions():
     packages = ("beam", "numpy", "scipy", "pymcdm")
     versions = {name: metadata.version(name) for name in packages}
     versions["python"] = sys.version.split()[0]
+    versions["beam_commit"] = beam_commit()
+    versions.update(r_versions())
     return versions
 
 

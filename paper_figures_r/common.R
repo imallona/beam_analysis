@@ -139,7 +139,7 @@ openproblems_metric_quality <- function() memo("op_quality", {
   op <- DS$load_openproblems("batch_integration")
   metrics <- setdiff(as.character(py_to_r(op$metric_ids)), "hvg_overlap")
   tensor <- py_to_r(op$tensor(metrics))
-  keep <- apply(!apply(is.na(tensor), c(1, 2), all), 1, all)
+  keep <- apply(!apply(is.na(tensor), c(1, 3), all), 1, all)
   tensor <- NP$asarray(tensor[keep, , , drop = FALSE])
   bio <- c("ari", "nmi", "asw_label", "isolated_label_f1", "isolated_label_asw",
            "cell_cycle_conservation", "hvg_overlap", "clisi")

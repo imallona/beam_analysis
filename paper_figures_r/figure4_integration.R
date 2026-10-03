@@ -64,7 +64,7 @@ build_figure4 <- function() {
   cr <- .consensus_ranks(ib, published)
   recs <- .mean_rank_records(ib)
 
-  bump <- beam_rank_bump(CANON, cr$columns, cr$ranks, divider_after = 2)
+  bump <- beam_rank_bump(CANON, cr$columns, cr$ranks, divider_after = 3)
 
   sv <- .source_variance(recs, FIVE_SOURCES)
   s3 <- .safe_share(recs, THREE_SOURCES)

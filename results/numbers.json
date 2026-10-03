@@ -25,6 +25,7 @@
     ]
   },
   "duo": {
+    "aggregation_max_rank_span": 9,
     "ari_critical_difference": {
       "alpha": 0.05,
       "average_ranks": {
@@ -80,6 +81,7 @@
       "n_datasets": 8,
       "n_tools": 14
     },
+    "leave_one_dataset_out_max_rank_shift": 1,
     "metrics": [
       "ari",
       "runtime",
@@ -122,9 +124,11 @@
         "dataset": 0.7342761695422104,
         "weighting": 0.03513451634308034
       },
+      "headline_best_rank": 1,
       "headline_rank_span": 10,
       "headline_tool": "Seurat",
       "headline_top_fraction": 0.5041666666666667,
+      "headline_worst_rank": 11,
       "interaction_share": 0.1976690642536318,
       "most_frequent_top_fraction": 0.5,
       "most_frequent_top_tool": "Seurat",
@@ -333,9 +337,11 @@
         "dataset": 0.963193310296449,
         "weighting": 0.0021734205000200997
       },
+      "headline_best_rank": 1,
       "headline_rank_span": 17,
       "headline_tool": "Smyl",
       "headline_top_fraction": 0.3333333333333333,
+      "headline_worst_rank": 18,
       "interaction_share": 0.031934572901956886,
       "most_frequent_top_fraction": 0.3333333333333333,
       "most_frequent_top_tool": "Smyl",
@@ -453,6 +459,7 @@
       "nmi",
       "pcr"
     ],
+    "n_methods": 14,
     "n_observations": 84,
     "parallel_analysis": {
       "n_iter": 500,
@@ -468,7 +475,12 @@
     }
   },
   "software": {
+    "R": "4.5.3",
     "beam": "0.2.0",
+    "beam_commit": "0b23686",
+    "lme4": "2.0.6",
+    "meta": "8.5.0",
+    "netmeta": "3.6.1",
     "numpy": "2.5.3",
     "pymcdm": "1.4.0",
     "python": "3.14.7",
