@@ -11,3 +11,4 @@
 - figure 3 has one tag per panel, figure 4 draws the pancreas ranks as dots, figure 2 has a key for the circle size
 - `.github/workflows/figures.yml` builds the figures and numbers on push
 - a figure that fails to build fails `make figures`; `tools/compare_numbers.py` compares two numbers files with a tolerance
+- beam pinned to v0.3.1
