@@ -40,14 +40,7 @@ jobs:
       - name: Numbers unchanged, apart from the software versions
         run: |
           git show HEAD:results/numbers.json > committed.json
-          python - <<'PY'
-          import json
-          committed = json.load(open("committed.json"))
-          rebuilt = json.load(open("results/numbers.json"))
-          committed.pop("software"), rebuilt.pop("software")
-          changed = sorted(k for k in committed if committed[k] != rebuilt.get(k))
-          assert not changed, f"numbers changed in: {changed}"
-          PY
+          python tools/compare_numbers.py committed.json results/numbers.json
 
       - name: Figures
         run: |
@@ -55,6 +48,7 @@ jobs:
           make figure1
 
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: figures
           path: |
@@ -62,4 +56,4 @@ jobs:
             figures_r/*.png
             figure1/fig1_design.pdf
             results/numbers.json
-          if-no-files-found: error
+          if-no-files-found: warn

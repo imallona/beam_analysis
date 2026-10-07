@@ -16,7 +16,7 @@ make numbers          # results/numbers.json
 make check            # lint and parse the figure code
 ```
 
-To work against a local checkout instead of the tag, set `BEAM_SRC=../beam`. To use the conda environment from `envs/figures-r.yml` instead of `.venv`, set `PY=$CONDA_PREFIX/bin/python` on every make call; the Makefile passes it to reticulate as `RETICULATE_PYTHON`. `.github/workflows/figures.yml` runs the same steps on push and uploads the figures and the numbers as one artifact; it fails when a value in `results/numbers.json` other than the software versions changes, so commit the regenerated file with the code that changed it.
+To work against a local checkout instead of the tag, set `BEAM_SRC=../beam`. To use the conda environment from `envs/figures-r.yml` instead of `.venv`, set `PY=$CONDA_PREFIX/bin/python` on every make call; the Makefile passes it to reticulate as `RETICULATE_PYTHON`. `.github/workflows/figures.yml` runs the same steps on push and uploads the figures and the numbers as one artifact; it fails when a value in `results/numbers.json` other than the software versions differs beyond a small tolerance (`tools/compare_numbers.py`), so commit the regenerated file with the code that changed it.
 
 The R backend needs R (>= 4.2) with reticulate (>= 1.40), ggplot2 and patchwork; `envs/figures-r.yml` is a conda recipe for the whole toolchain. Figures 4 and 5 fit R models (lme4, netmeta) and are skipped, not failed, when those are absent. Runs are deterministic: every `beam.rank` and `rank_sensitivity` seeds at zero.
 

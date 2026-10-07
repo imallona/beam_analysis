@@ -33,13 +33,17 @@ def _attribution_report():
     """The three-setting attribution: Duo, pooled cross-benchmark, same-data."""
     if not r_available():
         raise RNotAvailableError("Figure 5 attribution needs the R toolchain (lme4)")
-    duo_setting = setting_from_rank_sensitivity(C.duo_rank_sensitivity(), "Duo clustering\n(one benchmark)")
+    duo_setting = setting_from_rank_sensitivity(
+        C.duo_rank_sensitivity(), "Duo clustering\n(one benchmark)"
+    )
     ib = load_integration_benchmarks()
     methods, datasets, benchmarks, scores = ib.mean_rank_records()
     source_variance = source_variance_decomposition(methods, datasets, benchmarks, scores)
     # No metric axis in the pooled mean-rank data, so the analyst-choice share is
     # not measurable and stays zero.
-    pooled_setting = setting_from_source_variance(source_variance, 0.0, "integration\n(five benchmarks)")
+    pooled_setting = setting_from_source_variance(
+        source_variance, 0.0, "integration\n(five benchmarks)"
+    )
     return attribution_synthesis([duo_setting, pooled_setting])
 
 

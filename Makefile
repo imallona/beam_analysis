@@ -69,7 +69,7 @@ numbers: $(STAMP)
 
 check: $(STAMP)
 	$(PY) -m ruff check .
-	$(PY) -m py_compile paper_figures/*.py make_paper_figures.py make_paper_numbers.py
+	$(PY) -m py_compile paper_figures/*.py make_paper_figures.py make_paper_numbers.py tools/compare_numbers.py
 	$(RSCRIPT) -e 'invisible(lapply(list.files("paper_figures_r", "[.]R$$", full.names=TRUE), parse)); invisible(parse("make_paper_figures.R")); cat("R syntax OK\n")'
 
 clean:
