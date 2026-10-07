@@ -106,9 +106,9 @@
           "FlowSOM"
         ]
       ],
-      "critical_difference": 7.014594793124739,
-      "friedman_pvalue": 0.0003217697555258242,
-      "friedman_statistic": 37.69800307219662,
+      "critical_difference": 7.01459,
+      "friedman_pvalue": 0.00032177,
+      "friedman_statistic": 37.698,
       "n_datasets": 8,
       "n_tools": 14
     },
@@ -158,9 +158,9 @@
       "headline_best_rank": 1,
       "headline_rank_span": 10,
       "headline_tool": "Seurat",
-      "headline_top_fraction": 0.5041666666666667,
+      "headline_top_fraction": 0.504167,
       "headline_worst_rank": 11,
-      "interaction_share": 0.1976690642536318,
+      "interaction_share": 0.197669,
       "most_frequent_top_fraction": 0.5,
       "most_frequent_top_tool": "Seurat",
       "n_combinations": 240,
@@ -177,11 +177,11 @@
     "critical_difference": {
       "alpha": 0.05,
       "average_ranks": {
-        "CellMarker2.0": 4.763888888888889,
-        "GPT-3.5": 3.138888888888889,
-        "GPT-4": 1.1666666666666667,
-        "ScType": 2.9444444444444446,
-        "SingleR": 2.986111111111111
+        "CellMarker2.0": 4.76389,
+        "GPT-3.5": 3.13889,
+        "GPT-4": 1.16667,
+        "ScType": 2.94444,
+        "SingleR": 2.98611
       },
       "cliques": [
         [
@@ -190,18 +190,18 @@
           "GPT-3.5"
         ]
       ],
-      "critical_difference": 1.0165814867579805,
-      "friedman_pvalue": 4.2128717415612076e-20,
-      "friedman_statistic": 97.0317002881845,
+      "critical_difference": 1.01658,
+      "friedman_pvalue": 4.21287e-20,
+      "friedman_statistic": 97.0317,
       "n_datasets": 36,
       "n_tools": 5
     },
     "mean_agreement": {
-      "CellMarker2.0": 0.24858055159941495,
-      "GPT-3.5": 0.436131221862962,
-      "GPT-4": 0.6032636661200456,
-      "ScType": 0.449661776673832,
-      "SingleR": 0.45040416954737517
+      "CellMarker2.0": 0.248581,
+      "GPT-3.5": 0.436131,
+      "GPT-4": 0.603264,
+      "ScType": 0.449662,
+      "SingleR": 0.450404
     },
     "methods": [
       "GPT-4",
@@ -249,9 +249,9 @@
       }
     },
     "method_benchmark_share": {
-      "five": 0.4193286582850391,
-      "four": 0.22571245604620638,
-      "three": 0.16658404805219237
+      "five": 0.419329,
+      "four": 0.225712,
+      "three": 0.166584
     },
     "n_records": 643,
     "network_arms": {
@@ -264,42 +264,42 @@
       "df_total": 141.0,
       "effect": [
         0.0,
-        -1.10889995311791,
-        -1.34525569780283,
-        -1.3637729712786,
-        -0.502998165808819
+        -1.1089,
+        -1.34526,
+        -1.36377,
+        -0.502998
       ],
       "effect_lower": [
         0.0,
-        -1.54113888889847,
-        -1.79735343724147,
-        -1.93328961974962,
-        -0.939689228997283
+        -1.54114,
+        -1.79735,
+        -1.93329,
+        -0.939689
       ],
       "effect_se": [
         0.0,
-        0.220534121642033,
-        0.23066635050681,
-        0.290575057992545,
-        0.222805656957489
+        0.220534,
+        0.230666,
+        0.290575,
+        0.222806
       ],
       "effect_upper": [
         0.0,
-        -0.676661017337355,
-        -0.893157958364194,
-        -0.794256322807572,
-        -0.0663071026203555
+        -0.676661,
+        -0.893158,
+        -0.794256,
+        -0.0663071
       ],
       "i2": 0.67455,
       "n_comparisons": 307,
       "n_studies": 51,
       "n_treatments": 5,
       "pscore": [
-        0.00299700065182851,
-        0.583945026699013,
-        0.831069069431167,
-        0.83378614645959,
-        0.248202756758401
+        0.002997,
+        0.583945,
+        0.831069,
+        0.833786,
+        0.248203
       ],
       "pval_heterogeneity": 4.28622e-21,
       "pval_inconsistency": 1.51817e-13,
@@ -344,8 +344,8 @@
         "liger": 4.0,
         "scanorama": 3.5
       },
-      "spearman": 0.46169025843831935,
-      "spearman_pvalue": 0.43376615616902764,
+      "spearman": 0.46169,
+      "spearman_pvalue": 0.433766,
       "top_method": {
         "Tran": "harmony",
         "scIB": "harmony"
@@ -360,7 +360,7 @@
     },
     "source_variance_fits": {
       "five": {
-        "method_benchmark_share": 0.4193286582850391,
+        "method_benchmark_share": 0.419329,
         "n_benchmarks": 5,
         "n_datasets": 52,
         "n_obs": 226,
@@ -380,7 +380,7 @@
         "warnings": []
       },
       "four": {
-        "method_benchmark_share": 0.22571245604620638,
+        "method_benchmark_share": 0.225712,
         "n_benchmarks": 4,
         "n_datasets": 22,
         "n_obs": 106,
@@ -400,7 +400,7 @@
         "warnings": []
       },
       "three": {
-        "method_benchmark_share": 0.16658404805219237,
+        "method_benchmark_share": 0.166584,
         "n_benchmarks": 3,
         "n_datasets": 20,
         "n_obs": 100,
@@ -435,18 +435,18 @@
         "method:benchmark": 59.274
       },
       "method_effect_se": [
-        0.309136491430429,
-        0.30913649143043,
-        0.284815343568296,
-        0.324281346159119,
-        0.284815343568297
+        0.309136,
+        0.309136,
+        0.284815,
+        0.324281,
+        0.284815
       ],
       "method_effects": [
-        3.55608485819362,
-        2.43658167545596,
-        2.30372753726354,
-        2.48933527111722,
-        3.09857530224198
+        3.55608,
+        2.43658,
+        2.30373,
+        2.48934,
+        3.09858
       ],
       "method_names": [
         "combat",
@@ -507,10 +507,10 @@
       "headline_best_rank": 1,
       "headline_rank_span": 17,
       "headline_tool": "Smyl",
-      "headline_top_fraction": 0.3333333333333333,
+      "headline_top_fraction": 0.333333,
       "headline_worst_rank": 18,
-      "interaction_share": 0.031934572901956886,
-      "most_frequent_top_fraction": 0.3333333333333333,
+      "interaction_share": 0.0319346,
+      "most_frequent_top_fraction": 0.333333,
       "most_frequent_top_tool": "Smyl",
       "n_combinations": 120,
       "weightings": [
@@ -610,8 +610,8 @@
       "batch": 2,
       "bio": 2
     },
-    "mean_convergent": 0.38337978834820735,
-    "mean_discriminant": 0.29695887011814076,
+    "mean_convergent": 0.38338,
+    "mean_discriminant": 0.296959,
     "metrics": [
       "ari",
       "asw_batch",
@@ -644,7 +644,7 @@
   "software": {
     "R": "4.5.3",
     "beam": "0.3.0",
-    "beam_commit": "v0.3.0-4-gcbfff53",
+    "beam_commit": "v0.3.0-5-gaa06a3c",
     "lme4": "2.0.6",
     "meta": "8.5.0",
     "netmeta": "3.6.1",

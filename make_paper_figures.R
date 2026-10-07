@@ -9,8 +9,8 @@
 # width when absent). The figures are deterministic: every beam.rank and
 # rank_sensitivity call seeds at zero. Figures 4 and 5 fit R models (lme4,
 # netmeta) through beam.heterogeneity; when the toolchain is absent they are
-# skipped with a message rather than failing the run. Figure 1 is a Graphviz
-# schematic (make figure1).
+# skipped with a message. Any other build error fails the run. Figure 1 is a
+# Graphviz schematic (make figure1).
 #
 # The Python matplotlib figures under paper_figures/ (built by
 # make_paper_figures.py) stay available as a second backend.
@@ -37,6 +37,7 @@ if (length(wanted) == 0) wanted <- names(REGISTRY)
 
 cat(sprintf("writing figures to %s\n", output_dir))
 built <- 0
+failed <- 0
 for (num in wanted) {
   fig <- REGISTRY[[num]]
   if (is.null(fig)) {
@@ -50,6 +51,7 @@ for (num in wanted) {
       cat(sprintf("  figure %s: skipped, needs R (%s)\n", num, conditionMessage(result)))
     } else {
       cat(sprintf("  figure %s: FAILED (%s)\n", num, conditionMessage(result)))
+      failed <- failed + 1
     }
     next
   }
@@ -60,4 +62,5 @@ for (num in wanted) {
               as.numeric(difftime(Sys.time(), start, units = "secs"))))
   built <- built + 1
 }
-cat(sprintf("done: %d figure(s) written\n", built))
+cat(sprintf("done: %d figure(s) written, %d failed\n", built, failed))
+if (failed > 0) quit(status = 1)

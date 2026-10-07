@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
     inputs:
       beam_ref:
-        description: beam tag or commit to install
-        default: v0.3.0
+        description: beam tag, branch or full commit hash (default, the BEAM_REF of the Makefile)
+        default: ""
 
 jobs:
   figures:
@@ -27,15 +27,21 @@ jobs:
       - name: Install Graphviz
         run: sudo apt-get install -y --no-install-recommends graphviz
 
-      - name: Install beam and rbeam at the pinned ref
+      - name: Select the Python and the beam ref for every make call
+        env:
+          BEAM_REF_INPUT: ${{ github.event.inputs.beam_ref }}
         run: |
-          make setup r-setup BEAM_REF="${{ github.event.inputs.beam_ref || 'v0.3.0' }}" PY="$CONDA_PREFIX/bin/python"
+          echo "PY=$CONDA_PREFIX/bin/python" >> "$GITHUB_ENV"
+          if [ -n "$BEAM_REF_INPUT" ]; then echo "BEAM_REF=$BEAM_REF_INPUT" >> "$GITHUB_ENV"; fi
+
+      - name: Install beam and rbeam at the pinned ref
+        run: make setup r-setup
 
       - name: Lint and parse
-        run: make check PY="$CONDA_PREFIX/bin/python"
+        run: make check
 
       - name: Numbers
-        run: make numbers PY="$CONDA_PREFIX/bin/python"
+        run: make numbers
 
       - name: Numbers unchanged, apart from the software versions
         run: |
@@ -44,7 +50,7 @@ jobs:
 
       - name: Figures
         run: |
-          make figures PY="$CONDA_PREFIX/bin/python"
+          make figures
           make figure1
 
       - uses: actions/upload-artifact@v4

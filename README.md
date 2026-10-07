@@ -7,7 +7,7 @@ The manuscript figures come from the R backend: rbeam draws every panel with ggp
 ## Build
 
 ```
-make setup            # clone beam at BEAM_REF (default v0.3.0) under build/ and install it into .venv
+make setup            # check out beam at BEAM_REF under build/ and install it into .venv
 make r-setup          # install rbeam from the same checkout and check the R toolchain
 make figures          # R backend, into figures_r/
 make figure-2         # one figure; make figure-S1 for the supplementary one
@@ -16,7 +16,7 @@ make numbers          # results/numbers.json
 make check            # lint and parse the figure code
 ```
 
-To work against a local checkout instead of the tag, set `BEAM_SRC=../beam`. To use the conda environment from `envs/figures-r.yml` instead of `.venv`, set `PY=$CONDA_PREFIX/bin/python` on every make call; the Makefile passes it to reticulate as `RETICULATE_PYTHON`. `.github/workflows/figures.yml` runs the same steps on push and uploads the figures and the numbers as one artifact; it fails when a value in `results/numbers.json` other than the software versions differs beyond a small tolerance (`tools/compare_numbers.py`), so commit the regenerated file with the code that changed it.
+`BEAM_REF` in the Makefile is a tag, a branch or a full commit hash of beam; changing it makes a new checkout and reinstalls. To work against a local checkout, set `BEAM_SRC=../beam`. A figure that fails to build fails `make figures`. To use the conda environment from `envs/figures-r.yml` instead of `.venv`, set `PY=$CONDA_PREFIX/bin/python` on every make call; the Makefile passes it to reticulate as `RETICULATE_PYTHON`. `.github/workflows/figures.yml` runs the same steps on push and uploads the figures and the numbers as one artifact; it fails when a value in `results/numbers.json` other than the software versions differs beyond a small tolerance (`tools/compare_numbers.py`), so commit the regenerated file with the code that changed it.
 
 The R backend needs R (>= 4.2) with reticulate (>= 1.40), ggplot2 and patchwork; `envs/figures-r.yml` is a conda recipe for the whole toolchain. Figures 4 and 5 fit R models (lme4, netmeta) and are skipped, not failed, when those are absent. Runs are deterministic: every `beam.rank` and `rank_sensitivity` seeds at zero.
 

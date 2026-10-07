@@ -37,9 +37,9 @@ def plain(value):
         fields = {f.name: plain(getattr(value, f.name)) for f in dataclasses.fields(value)}
         return {name: field for name, field in fields.items() if field is not None}
     if isinstance(value, np.ndarray):
-        return value.tolist() if value.size <= MAX_ARRAY_CELLS else None
+        return plain(value.tolist()) if value.size <= MAX_ARRAY_CELLS else None
     if isinstance(value, np.generic):
-        return value.item()
+        return plain(value.item())
     if isinstance(value, dict):
         return {str(key): plain(item) for key, item in value.items()}
     if isinstance(value, (list, tuple, set, frozenset)):
@@ -348,7 +348,8 @@ def main() -> int:
         except RNotAvailableError as exc:
             print(f"  {key}: skipped, needs R ({exc})")
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(json.dumps(numbers, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    text = json.dumps(plain(numbers), indent=2, sort_keys=True, allow_nan=False)
+    OUTPUT.write_text(text + "\n", encoding="utf-8")
     print(f"wrote {OUTPUT}")
     return 0
 

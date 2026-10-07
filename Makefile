@@ -1,8 +1,10 @@
 # Build the beam manuscript figures and the numbers behind them.
 #
-# beam is installed from BEAM_SRC. By default that is a clone of the
-# imallona/beam repository at tag BEAM_REF, made under build/. Point BEAM_SRC at
-# a local checkout to work against unreleased code (BEAM_SRC=../beam).
+# beam is installed from BEAM_SRC. By default that is a checkout of the
+# imallona/beam repository at BEAM_REF (a tag, a branch or a full commit hash),
+# made under build/ in a directory named after the ref. Changing BEAM_REF makes
+# a new checkout and reinstalls. Point BEAM_SRC at a local checkout to work
+# against unreleased code (BEAM_SRC=../beam).
 #
 # The R backend draws the figures with rbeam, ggplot2 and patchwork and reads
 # the numbers from the beam Python package through reticulate. It needs R 4.2 or
@@ -14,13 +16,15 @@
 # environment built from envs/figures-r.yml. PY has to be an absolute path or
 # the venv path, because reticulate reads it as RETICULATE_PYTHON.
 
-BEAM_REF ?= v0.3.0
-BEAM_SRC ?= build/beam
+# The commit of imallona/beam#4, which has the plot functions the figures use.
+# Move this to the release tag once that pull request is merged and tagged.
+BEAM_REF ?= aa06a3c3e1ac9fe8ae958dd9fab3a4e20e10a271
+BEAM_SRC ?= build/beam-$(BEAM_REF)
 PYTHON ?= python3
 RSCRIPT ?= Rscript
 VENV := .venv
 PY ?= $(VENV)/bin/python
-STAMP := $(VENV)/.installed
+STAMP := $(VENV)/.installed-$(notdir $(abspath $(BEAM_SRC)))
 export RETICULATE_PYTHON := $(if $(filter /%,$(PY)),$(PY),$(abspath $(PY)))
 
 .PHONY: help setup r-setup figures figures-python figure1 numbers check clean
@@ -38,14 +42,16 @@ help:
 	@echo "Variables: BEAM_REF=$(BEAM_REF) BEAM_SRC=$(BEAM_SRC) PY=$(PY)"
 
 $(BEAM_SRC):
-	git clone --depth 1 --branch $(BEAM_REF) https://github.com/imallona/beam $@
+	git init -q $@
+	git -C $@ fetch -q --depth 1 https://github.com/imallona/beam $(BEAM_REF)
+	git -C $@ checkout -q --detach FETCH_HEAD
 
 $(STAMP): | $(BEAM_SRC)
 	test "$(PY)" != "$(VENV)/bin/python" || $(PYTHON) -m venv $(VENV)
 	$(PY) -m pip install --upgrade pip
 	$(PY) -m pip install -e $(BEAM_SRC)
 	$(PY) -m pip install matplotlib numpy scipy ruff
-	mkdir -p $(dir $@) && touch $@
+	mkdir -p $(dir $@) && rm -f $(VENV)/.installed* && touch $@
 
 setup: $(STAMP)
 

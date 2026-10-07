@@ -30,7 +30,7 @@ PUBLISHED_BENCHMARKS = ("Tran", "scIB", "OpenProblems")
 
 
 def _attribution_report():
-    """The three-setting attribution: Duo, pooled cross-benchmark, same-data."""
+    """The attribution in two settings: within Duo and across the pooled benchmarks."""
     if not r_available():
         raise RNotAvailableError("Figure 5 attribution needs the R toolchain (lme4)")
     duo_setting = setting_from_rank_sensitivity(
