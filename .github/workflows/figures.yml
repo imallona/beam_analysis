@@ -2,7 +2,7 @@ name: figures
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
   workflow_dispatch:
     inputs:
@@ -37,8 +37,17 @@ jobs:
       - name: Numbers
         run: make numbers PY="$CONDA_PREFIX/bin/python"
 
-      - name: Numbers unchanged
-        run: git diff --exit-code results/numbers.json
+      - name: Numbers unchanged, apart from the software versions
+        run: |
+          git show HEAD:results/numbers.json > committed.json
+          python - <<'PY'
+          import json
+          committed = json.load(open("committed.json"))
+          rebuilt = json.load(open("results/numbers.json"))
+          committed.pop("software"), rebuilt.pop("software")
+          changed = sorted(k for k in committed if committed[k] != rebuilt.get(k))
+          assert not changed, f"numbers changed in: {changed}"
+          PY
 
       - name: Figures
         run: |
