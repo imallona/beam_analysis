@@ -68,7 +68,7 @@ build_figure4 <- function() {
   s3 <- .safe_share(recs, THREE_SOURCES)
   s4 <- .safe_share(recs, FOUR_SOURCES)
   s5 <- as.numeric(py_to_r(sv$method_benchmark_share))
-  ann <- sprintf("method:benchmark share\n%.2f / %.2f / %.2f (3 / 4 / 5 sources)", s3, s4, s5)
+  ann <- sprintf("method:benchmark fraction\n%.2f / %.2f / %.2f (3 / 4 / 5 benchmarks)", s3, s4, s5)
   variance <- beam_plot(sv, "variance_components", highlight = "method:benchmark",
                         annotation = ann, title = "cross-source variance")
 
