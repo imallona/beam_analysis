@@ -2,13 +2,14 @@
 # Regenerate the beam manuscript figures with the R backend into figures_r/.
 #
 #   Rscript make_paper_figures.R            # all figures
-#   Rscript make_paper_figures.R 2 6        # only figures 2 and 6
+#   Rscript make_paper_figures.R 2 S1       # only figure 2 and supplementary S1
 #
 # Each figure is a self-contained module under paper_figures_r/ exposing a
-# FIGUREN list with build(), file and height_mm. The figures are deterministic:
-# every beam.rank and rank_sensitivity call seeds at zero. Figures 4 and 5 fit R
-# models (lme4, netmeta) through beam.heterogeneity; when the toolchain is absent
-# they are skipped with a message rather than failing the run. Figure 1 is a
+# FIGUREN list with build(), file, height_mm and an optional width_mm (full
+# width when absent). The figures are deterministic: every beam.rank and
+# rank_sensitivity call seeds at zero. Figures 4 and 5 fit R models (lme4,
+# netmeta) through beam.heterogeneity; when the toolchain is absent they are
+# skipped with a message. Any other build error fails the run. Figure 1 is a
 # Graphviz schematic (make figure1).
 #
 # The Python matplotlib figures under paper_figures/ (built by
@@ -21,11 +22,12 @@ fig_dir <- file.path(root, "paper_figures_r")
 
 source(file.path(fig_dir, "common.R"))
 for (name in c("figure2_duo", "figure3_domains", "figure4_integration",
-               "figure5_attribution", "figure6_metrics")) {
+               "figure5_attribution", "figure6_metrics", "figureS1_blinding")) {
   source(file.path(fig_dir, paste0(name, ".R")))
 }
 
-REGISTRY <- list(`2` = FIGURE2, `3` = FIGURE3, `4` = FIGURE4, `5` = FIGURE5, `6` = FIGURE6)
+REGISTRY <- list(`2` = FIGURE2, `3` = FIGURE3, `4` = FIGURE4, `5` = FIGURE5, `6` = FIGURE6,
+                 S1 = FIGURES1)
 
 output_dir <- file.path(root, "figures_r")
 dir.create(output_dir, showWarnings = FALSE)
@@ -35,6 +37,7 @@ if (length(wanted) == 0) wanted <- names(REGISTRY)
 
 cat(sprintf("writing figures to %s\n", output_dir))
 built <- 0
+failed <- 0
 for (num in wanted) {
   fig <- REGISTRY[[num]]
   if (is.null(fig)) {
@@ -48,13 +51,16 @@ for (num in wanted) {
       cat(sprintf("  figure %s: skipped, needs R (%s)\n", num, conditionMessage(result)))
     } else {
       cat(sprintf("  figure %s: FAILED (%s)\n", num, conditionMessage(result)))
+      failed <- failed + 1
     }
     next
   }
   path <- file.path(output_dir, fig$file)
-  save_figure(result, path, height_mm = fig$height_mm)
+  save_figure(result, path, width_mm = fig$width_mm %||% FULL_WIDTH_MM,
+              height_mm = fig$height_mm)
   cat(sprintf("  figure %s: %s (%.1fs)\n", num, path,
               as.numeric(difftime(Sys.time(), start, units = "secs"))))
   built <- built + 1
 }
-cat(sprintf("done: %d figure(s) written\n", built))
+cat(sprintf("done: %d figure(s) written, %d failed\n", built, failed))
+if (failed > 0) quit(status = 1)

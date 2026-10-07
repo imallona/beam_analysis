@@ -15,12 +15,11 @@ from matplotlib.figure import Figure
 
 import beam
 from beam.blinding import blind
-from beam.datasets import load_integration_benchmarks, load_pancreas_contrast
+from beam.datasets import load_integration_benchmarks
 from beam.heterogeneity import RNotAvailableError, r_available, source_variance_decomposition
 from beam.mcda import (
     attribution_synthesis,
     setting_from_rank_sensitivity,
-    setting_from_same_data_contrast,
     setting_from_source_variance,
 )
 from beam.reporting.figures import attribution_progression_plot
@@ -31,21 +30,21 @@ PUBLISHED_BENCHMARKS = ("Tran", "scIB", "OpenProblems")
 
 
 def _attribution_report():
-    """The three-setting attribution: Duo, pooled cross-benchmark, same-data."""
+    """The attribution in two settings: within Duo and across the pooled benchmarks."""
     if not r_available():
         raise RNotAvailableError("Figure 5 attribution needs the R toolchain (lme4)")
-    duo_setting = setting_from_rank_sensitivity(C.duo_rank_sensitivity(), "Duo\n(within benchmark)")
+    duo_setting = setting_from_rank_sensitivity(
+        C.duo_rank_sensitivity(), "Duo clustering\n(one benchmark)"
+    )
     ib = load_integration_benchmarks()
     methods, datasets, benchmarks, scores = ib.mean_rank_records()
     source_variance = source_variance_decomposition(methods, datasets, benchmarks, scores)
     # No metric axis in the pooled mean-rank data, so the analyst-choice share is
     # not measurable and stays zero.
-    pooled_setting = setting_from_source_variance(source_variance, 0.0, "pooled\n(cross-benchmark)")
-    pc = load_pancreas_contrast()
-    same_data_setting = setting_from_same_data_contrast(
-        {"Tran": pc.tran_mean_rank, "scIB": pc.scib_mean_rank}, "pancreas\n(same data)"
+    pooled_setting = setting_from_source_variance(
+        source_variance, 0.0, "integration\n(five benchmarks)"
     )
-    return attribution_synthesis([duo_setting, pooled_setting, same_data_setting])
+    return attribution_synthesis([duo_setting, pooled_setting])
 
 
 def _blinding_panel(host) -> None:

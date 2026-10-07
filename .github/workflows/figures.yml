@@ -1,0 +1,65 @@
+name: figures
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      beam_ref:
+        description: beam tag, branch or full commit hash (default, the BEAM_REF of the Makefile)
+        default: ""
+
+jobs:
+  figures:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-file: envs/figures-r.yml
+          cache-environment: true
+
+      - name: Install Graphviz
+        run: sudo apt-get install -y --no-install-recommends graphviz
+
+      - name: Select the Python and the beam ref for every make call
+        env:
+          BEAM_REF_INPUT: ${{ github.event.inputs.beam_ref }}
+        run: |
+          echo "PY=$CONDA_PREFIX/bin/python" >> "$GITHUB_ENV"
+          if [ -n "$BEAM_REF_INPUT" ]; then echo "BEAM_REF=$BEAM_REF_INPUT" >> "$GITHUB_ENV"; fi
+
+      - name: Install beam and rbeam at the pinned ref
+        run: make setup r-setup
+
+      - name: Lint and parse
+        run: make check
+
+      - name: Numbers
+        run: make numbers
+
+      - name: Numbers unchanged, apart from the software versions
+        run: |
+          git show HEAD:results/numbers.json > committed.json
+          python tools/compare_numbers.py committed.json results/numbers.json
+
+      - name: Figures
+        run: |
+          make figures
+          make figure1
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: figures
+          path: |
+            figures_r/*.pdf
+            figures_r/*.png
+            figure1/fig1_design.pdf
+            results/numbers.json
+          if-no-files-found: warn

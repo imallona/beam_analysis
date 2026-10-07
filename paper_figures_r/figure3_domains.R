@@ -1,9 +1,8 @@
-# Figure 3: the rank-variance splits differently across domains.
+# Figure 3: M4 forecasting and GPTCelltype cell type annotation.
 #
-# Layout (a1 | a2) / (b1 | b2): M4 forecasting on top, GPTCelltype language-model
-# cell typing below. Each domain pairs a rank-variance decomposition with a
-# separability diagnostic. The order is stable to weighting and aggregation but
-# changes with the dataset.
+# Layout (a | b) / (c | d): the M4 rank variance decomposition and specification
+# curve on top, the GPTCelltype mean agreement and critical difference diagram
+# below.
 
 GPT_HEAD <- c("GPT-4", "GPT-3.5", "CellMarker2.0", "SingleR", "ScType")
 GPT_CLASSICAL <- c("CellMarker2.0", "SingleR", "ScType")
@@ -40,7 +39,7 @@ GPT_CLASSICAL <- c("CellMarker2.0", "SingleR", "ScType")
     geom_col(show.legend = FALSE) +
     scale_fill_manual(values = c(classical = "#888888",
                                  `language model` = unname(ROLE["data"]))) +
-    labs(x = NULL, y = "mean agreement (higher is better)", title = "composite score per method") +
+    labs(x = NULL, y = "mean agreement (higher is better)") +
     beam_theme() +
     theme(axis.text.x = element_text(angle = 30, hjust = 1))
 }
@@ -51,14 +50,15 @@ build_figure3 <- function() {
   gpt <- .gpt_block()
   cd <- MCDA$critical_difference(gpt$block[, , 1], "higher_is_better", tool_names = GPT_HEAD)
 
-  a1 <- panel_small(beam_plot(rs_m4, "rank_sensitivity"))
-  a2 <- panel_small(beam_plot(curve, "specification_curve"), "bottom")
-  b1 <- panel_small(.gpt_composite_bar(gpt$agreement))
-  b2 <- panel_small(beam_plot(cd, "critical_difference"))
+  a <- panel_small(beam_plot(rs_m4, "rank_sensitivity"))
+  b <- panel_small(beam_plot(curve, "specification_curve"), "bottom") &
+    guides(fill = guide_legend(nrow = 2, byrow = TRUE))
+  c <- panel_small(.gpt_composite_bar(gpt$agreement))
+  d <- panel_small(beam_plot(cd, "critical_difference"))
 
-  row_a <- wrap_elements(full = (a1 | a2) + plot_layout(widths = c(1.0, 1.4)))
-  row_b <- wrap_elements(full = (b1 | b2) + plot_layout(widths = c(1.0, 1.4)))
-  label_figure(row_a / row_b)
+  top <- (a | wrap_elements(full = b)) + plot_layout(widths = c(1.0, 1.4))
+  bottom <- (c | d) + plot_layout(widths = c(1.0, 1.4))
+  label_figure(top / bottom + plot_layout(heights = c(1.35, 1.0)))
 }
 
-FIGURE3 <- list(build = build_figure3, file = "figure3_domains.pdf", height_mm = 150.0)
+FIGURE3 <- list(build = build_figure3, file = "figure3_domains.pdf", height_mm = 170.0)

@@ -1,12 +1,10 @@
-# Figure 4: integration benchmarks disagree, and a same-data contrast separates
-# the analyst's choices from the data.
+# Figure 4: five integration methods in five benchmarks.
 #
-# Layout (a | b) / (c | d): the reported rankings and the beam consensus, the
-# cross-source variance decomposition, the network meta-analysis forest, and the
-# pancreas same-data contrast. Independent integration benchmarks rank shared
-# methods differently, much of the spread is the method-by-benchmark interaction
-# rather than the method, and holding the data constant leaves the analysts'
-# choices as the remaining disagreement.
+# Layout (a | b) / (c | d): the ranks reconstructed from three benchmarks and
+# the rank of their mean rank, the cross-benchmark variance components, the
+# network meta-analysis forest plot, and the pancreas contrast between Tran and
+# scIB. The last column of panel a is computed here, in .consensus_ranks, and
+# not by beam.
 #
 # Panels b and c fit R models (lme4, netmeta); build_figure4 stops when the R
 # toolchain is absent so the driver skips the figure.
@@ -17,8 +15,8 @@ THREE_SOURCES <- c("Tran", "scIB", "OpenProblems")
 FOUR_SOURCES <- c(THREE_SOURCES, "Tyler")
 FIVE_SOURCES <- c(FOUR_SOURCES, "BatchBench")
 
-# The three reported rank columns plus the beam consensus, as a rank matrix. The
-# consensus pools beam's per-benchmark mean ranks over the four shared metrics.
+# The three reconstructed rank columns plus the rank of the mean rank over the
+# three benchmarks, as a rank matrix.
 .consensus_ranks <- function(ib, published) {
   bm <- as.character(py_to_r(ib$benchmark))
   me <- as.character(py_to_r(ib$method))
@@ -31,7 +29,7 @@ FIVE_SOURCES <- c(FOUR_SOURCES, "BatchBench")
   ranks <- t(vapply(CANON, function(m)
     c(vapply(BENCH, function(b) as.numeric(pub[[b]][[m]]), numeric(1)), consensus[[m]]),
     numeric(length(BENCH) + 1)))
-  columns <- c(paste0(BENCH, "\n(reported)"), "beam\nconsensus")
+  columns <- c(paste0(BENCH, "\n(reconstructed)"), "mean rank\nover the three")
   list(columns = columns, ranks = ranks)
 }
 
@@ -70,7 +68,7 @@ build_figure4 <- function() {
   s3 <- .safe_share(recs, THREE_SOURCES)
   s4 <- .safe_share(recs, FOUR_SOURCES)
   s5 <- as.numeric(py_to_r(sv$method_benchmark_share))
-  ann <- sprintf("method:benchmark share\n%.2f / %.2f / %.2f (3 / 4 / 5 sources)", s3, s4, s5)
+  ann <- sprintf("method:benchmark fraction\n%.2f / %.2f / %.2f (3 / 4 / 5 benchmarks)", s3, s4, s5)
   variance <- beam_plot(sv, "variance_components", highlight = "method:benchmark",
                         annotation = ann, title = "cross-source variance")
 
@@ -80,12 +78,12 @@ build_figure4 <- function() {
 
   pc <- DS$load_pancreas_contrast()
   sp <- as.numeric(py_to_r(pc$spearman()))
-  grouped <- beam_rank_bars(
+  grouped <- beam_rank_dots(
     py_to_r(pc$methods),
-    list(`Tran D4` = as.numeric(py_to_r(pc$tran_mean_rank)),
-         `scIB pancreas` = as.numeric(py_to_r(pc$scib_mean_rank)))) +
-    labs(title = "same pancreas data, two pipelines",
-         caption = sprintf("cross-pipeline Spearman %+.2f", sp))
+    list(`Tran, dataset 4` = as.numeric(py_to_r(pc$tran_mean_rank)),
+         `scIB, pancreas` = as.numeric(py_to_r(pc$scib_mean_rank))),
+    ylabel = "mean rank over four metrics (1 ranks first)") +
+    labs(caption = sprintf("Spearman correlation between the two columns %+.2f", sp))
 
   top <- panel_small(bump) | panel_small(variance)
   bottom <- panel_small(forest) | panel_small(grouped, "top")
