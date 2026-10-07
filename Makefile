@@ -70,7 +70,7 @@ numbers: $(STAMP)
 check: $(STAMP)
 	$(PY) -m ruff check .
 	$(PY) -m py_compile paper_figures/*.py make_paper_figures.py make_paper_numbers.py
-	$(RSCRIPT) -e 'invisible(lapply(list.files("paper_figures_r", "\\.R$$", full.names=TRUE), parse)); parse("make_paper_figures.R"); cat("R syntax OK\n")'
+	$(RSCRIPT) -e 'invisible(lapply(list.files("paper_figures_r", "[.]R$$", full.names=TRUE), parse)); invisible(parse("make_paper_figures.R")); cat("R syntax OK\n")'
 
 clean:
 	rm -f figures/*.pdf figures/*.png figures_r/*.pdf figures_r/*.png
