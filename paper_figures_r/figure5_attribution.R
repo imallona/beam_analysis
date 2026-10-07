@@ -1,7 +1,8 @@
 # Figure 5: the rank variance split into analyst choices, datasets and benchmark
-# in three settings.
+# within one benchmark and across five pooled benchmarks.
 #
-# One stacked bar per setting. The attribution fits an R model (lme4);
+# One stacked bar per setting. The pancreas contrast is left out: with two
+# rankings the reordering fraction is one for any input. The attribution fits an R model (lme4);
 # build_figure5 stops when the R toolchain is absent so the driver skips the
 # figure.
 
@@ -14,10 +15,7 @@
   # No metric axis in the pooled mean-rank data, so the analyst-choice share is
   # not measurable and stays zero.
   pooled_setting <- MCDA$setting_from_source_variance(sv, 0.0, "integration\n(five benchmarks)")
-  pc <- DS$load_pancreas_contrast()
-  same_setting <- MCDA$setting_from_same_data_contrast(
-    dict(Tran = pc$tran_mean_rank, scIB = pc$scib_mean_rank), "pancreas\n(Tran and scIB,\nby definition)")
-  MCDA$attribution_synthesis(list(duo_setting, pooled_setting, same_setting))
+  MCDA$attribution_synthesis(list(duo_setting, pooled_setting))
 }
 
 build_figure5 <- function() {
@@ -28,4 +26,4 @@ build_figure5 <- function() {
 }
 
 FIGURE5 <- list(build = build_figure5, file = "figure5_attribution.pdf",
-                width_mm = 85.0, height_mm = 60.0)
+                width_mm = 85.0, height_mm = 50.0)

@@ -6,21 +6,14 @@
         "basis": "rank_sensitivity",
         "benchmarker_share": 0.0,
         "dataset_share": 0.915179,
-        "label": "Duo\n(within benchmark)"
+        "label": "Duo clustering\n(one benchmark)"
       },
       {
         "analyst_choice_share": 0.0,
         "basis": "source_variance",
         "benchmarker_share": 0.419329,
         "dataset_share": 0.580671,
-        "label": "pooled\n(cross-benchmark)"
-      },
-      {
-        "analyst_choice_share": 1.0,
-        "basis": "same_data_contrast",
-        "benchmarker_share": 0.0,
-        "dataset_share": 0.0,
-        "label": "pancreas\n(same data)"
+        "label": "integration\n(five benchmarks)"
       }
     ]
   },
@@ -228,6 +221,33 @@
       "Tyler",
       "scIB"
     ],
+    "by_benchmark": {
+      "BatchBench": {
+        "n_datasets": 30,
+        "n_methods": 4,
+        "n_obs": 120
+      },
+      "OpenProblems": {
+        "n_datasets": 6,
+        "n_methods": 5,
+        "n_obs": 30
+      },
+      "Tran": {
+        "n_datasets": 9,
+        "n_methods": 5,
+        "n_obs": 45
+      },
+      "Tyler": {
+        "n_datasets": 2,
+        "n_methods": 3,
+        "n_obs": 6
+      },
+      "scIB": {
+        "n_datasets": 5,
+        "n_methods": 5,
+        "n_obs": 25
+      }
+    },
     "method_benchmark_share": {
       "five": 0.4193286582850391,
       "four": 0.22571245604620638,
@@ -351,6 +371,12 @@
           "benchmark:dataset": 0.0,
           "method:benchmark": 0.301416
         },
+        "variance_fractions": {
+          "Residual": 0.532262,
+          "benchmark": 0.0484093,
+          "benchmark:dataset": 0.0,
+          "method:benchmark": 0.419329
+        },
         "warnings": []
       },
       "four": {
@@ -365,6 +391,12 @@
           "benchmark:dataset": 0.0,
           "method:benchmark": 0.155571
         },
+        "variance_fractions": {
+          "Residual": 0.774288,
+          "benchmark": 0.0,
+          "benchmark:dataset": 0.0,
+          "method:benchmark": 0.225712
+        },
         "warnings": []
       },
       "three": {
@@ -378,6 +410,12 @@
           "benchmark": 0.0,
           "benchmark:dataset": 0.0,
           "method:benchmark": 0.106636
+        },
+        "variance_fractions": {
+          "Residual": 0.833416,
+          "benchmark": 0.0,
+          "benchmark:dataset": 0.0,
+          "method:benchmark": 0.166584
         },
         "warnings": []
       }
@@ -606,7 +644,7 @@
   "software": {
     "R": "4.5.3",
     "beam": "0.3.0",
-    "beam_commit": "v0.3.0-1-ga198e48-dirty",
+    "beam_commit": "v0.3.0-3-g3429316-dirty",
     "lme4": "2.0.6",
     "meta": "8.5.0",
     "netmeta": "3.6.1",

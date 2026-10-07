@@ -188,9 +188,11 @@ def source_variance_fit(benchmarks, keep):
         report = F4._source_variance(benchmarks, keep)
     except (RExecutionError, ValueError) as exc:
         return {"error": str(exc)}
+    total = report.total_variance
     return {
         "method_benchmark_share": report.method_benchmark_share,
         "variance_components": plain(report.variance_components),
+        "variance_fractions": {k: plain(v / total) for k, v in report.variance_components.items()},
         "singular": report.singular,
         "n_obs": report.n_obs,
         "n_datasets": report.n_datasets,
@@ -228,6 +230,15 @@ def integration_numbers():
         "five": F4.FIVE_SOURCES,
     }
     fits = {label: source_variance_fit(benchmarks, keep) for label, keep in source_sets.items()}
+    methods, datasets, names, _scores = benchmarks.mean_rank_records()
+    by_benchmark = {
+        name: {
+            "n_obs": sum(1 for b in names if b == name),
+            "n_datasets": len({d for d, b in zip(datasets, names, strict=True) if b == name}),
+            "n_methods": len({m for m, b in zip(methods, names, strict=True) if b == name}),
+        }
+        for name in sorted(set(names))
+    }
     arms = benchmarks.network_arms()
     return {
         "n_records": len(benchmarks.rank),
@@ -236,6 +247,7 @@ def integration_numbers():
             label: fit.get("method_benchmark_share", float("nan")) for label, fit in fits.items()
         },
         "source_variance_fits": fits,
+        "by_benchmark": by_benchmark,
         "source_variance_five": plain(F4._source_variance(benchmarks, F4.FIVE_SOURCES)),
         "network_arms": {"n_arms": len(arms[0]), "n_studies": len(set(arms[1]))},
         "network_meta_analysis": plain(network_meta_analysis(*arms)),
