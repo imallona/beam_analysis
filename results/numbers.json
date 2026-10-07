@@ -644,7 +644,7 @@
   "software": {
     "R": "4.5.3",
     "beam": "0.3.0",
-    "beam_commit": "v0.3.0-3-g3429316-dirty",
+    "beam_commit": "v0.3.0-4-gcbfff53",
     "lme4": "2.0.6",
     "meta": "8.5.0",
     "netmeta": "3.6.1",
