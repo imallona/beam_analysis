@@ -2,17 +2,17 @@
   "attribution": {
     "settings": [
       {
-        "analyst_choice_share": 0.08482131645696779,
+        "analyst_choice_share": 0.0848213,
         "basis": "rank_sensitivity",
         "benchmarker_share": 0.0,
-        "dataset_share": 0.9151786835430322,
+        "dataset_share": 0.915179,
         "label": "Duo\n(within benchmark)"
       },
       {
         "analyst_choice_share": 0.0,
         "basis": "source_variance",
-        "benchmarker_share": 0.4193286582850391,
-        "dataset_share": 0.5806713417149609,
+        "benchmarker_share": 0.419329,
+        "dataset_share": 0.580671,
         "label": "pooled\n(cross-benchmark)"
       },
       {
@@ -22,6 +22,44 @@
         "dataset_share": 0.0,
         "label": "pancreas\n(same data)"
       }
+    ]
+  },
+  "blinding": {
+    "identical_positions": 14,
+    "n_methods": 14,
+    "named_order": [
+      "Seurat",
+      "PCAKmeans",
+      "PCAHC",
+      "CIDR",
+      "monocle",
+      "RtsneKmeans",
+      "TSCAN",
+      "ascend",
+      "FlowSOM",
+      "SC3svm",
+      "SC3",
+      "pcaReduce",
+      "RaceID2",
+      "SAFE"
+    ],
+    "seal_sha256_prefix": "ab94772c1d602dca",
+    "seed": 0,
+    "unblinded_order": [
+      "Seurat",
+      "PCAKmeans",
+      "PCAHC",
+      "CIDR",
+      "monocle",
+      "RtsneKmeans",
+      "TSCAN",
+      "ascend",
+      "FlowSOM",
+      "SC3svm",
+      "SC3",
+      "pcaReduce",
+      "RaceID2",
+      "SAFE"
     ]
   },
   "duo": {
@@ -120,9 +158,9 @@
         "Seurat"
       ],
       "factor_shares": {
-        "aggregation": 0.03292024986107745,
-        "dataset": 0.7342761695422104,
-        "weighting": 0.03513451634308034
+        "aggregation": 0.0329202,
+        "dataset": 0.734276,
+        "weighting": 0.0351345
       },
       "headline_best_rank": 1,
       "headline_rank_span": 10,
@@ -159,7 +197,7 @@
           "GPT-3.5"
         ]
       ],
-      "critical_difference": 1.016581486757981,
+      "critical_difference": 1.0165814867579805,
       "friedman_pvalue": 4.2128717415612076e-20,
       "friedman_statistic": 97.0317002881845,
       "n_datasets": 36,
@@ -183,10 +221,22 @@
     "n_datasets": 54
   },
   "integration": {
+    "benchmarks": [
+      "BatchBench",
+      "OpenProblems",
+      "Tran",
+      "Tyler",
+      "scIB"
+    ],
     "method_benchmark_share": {
       "five": 0.4193286582850391,
       "four": 0.22571245604620638,
       "three": 0.16658404805219237
+    },
+    "n_records": 643,
+    "network_arms": {
+      "n_arms": 226,
+      "n_studies": 52
     },
     "network_meta_analysis": {
       "df_heterogeneity": 122.0,
@@ -197,7 +247,7 @@
         -1.10889995311791,
         -1.34525569780283,
         -1.3637729712786,
-        -0.50299816580882
+        -0.502998165808819
       ],
       "effect_lower": [
         0.0,
@@ -215,32 +265,32 @@
       ],
       "effect_upper": [
         0.0,
-        -0.676661017337353,
+        -0.676661017337355,
         -0.893157958364194,
-        -0.794256322807571,
-        -0.0663071026203558
+        -0.794256322807572,
+        -0.0663071026203555
       ],
-      "i2": 0.674550282072122,
+      "i2": 0.67455,
       "n_comparisons": 307,
       "n_studies": 51,
       "n_treatments": 5,
       "pscore": [
-        0.00299700065182852,
-        0.583945026699012,
+        0.00299700065182851,
+        0.583945026699013,
         0.831069069431167,
         0.83378614645959,
-        0.248202756758402
+        0.248202756758401
       ],
-      "pval_heterogeneity": 4.28622077081331e-21,
-      "pval_inconsistency": 1.51817071714821e-13,
-      "pval_total": 1.83982181961439e-31,
-      "q_heterogeneity": 330.231765381292,
-      "q_inconsistency": 103.014884509019,
-      "q_total": 433.246649890311,
+      "pval_heterogeneity": 4.28622e-21,
+      "pval_inconsistency": 1.51817e-13,
+      "pval_total": 1.83982e-31,
+      "q_heterogeneity": 330.232,
+      "q_inconsistency": 103.015,
+      "q_total": 433.247,
       "reference": "combat",
       "sm": "MD",
-      "tau": 1.09105679888773,
-      "tau2": 1.19040493839914,
+      "tau": 1.09106,
+      "tau2": 1.1904,
       "treatments": [
         "combat",
         "fastmnn",
@@ -252,20 +302,99 @@
         "Comparisons with missing TE / seTE or zero seTE not considered in network meta-analysis."
       ]
     },
-    "pancreas_spearman": 0.46169025843831935,
+    "pancreas": {
+      "methods": [
+        "combat",
+        "harmony",
+        "fastmnn",
+        "scanorama",
+        "liger"
+      ],
+      "metrics": [
+        "ARI",
+        "ASW",
+        "kBET",
+        "LISI"
+      ],
+      "n_methods": 5,
+      "scib_mean_rank": {
+        "combat": 4.0,
+        "fastmnn": 2.0,
+        "harmony": 1.5,
+        "liger": 4.0,
+        "scanorama": 3.5
+      },
+      "spearman": 0.46169025843831935,
+      "spearman_pvalue": 0.43376615616902764,
+      "top_method": {
+        "Tran": "harmony",
+        "scIB": "harmony"
+      },
+      "tran_mean_rank": {
+        "combat": 4.5,
+        "fastmnn": 4.0,
+        "harmony": 1.5,
+        "liger": 2.0,
+        "scanorama": 3.0
+      }
+    },
+    "source_variance_fits": {
+      "five": {
+        "method_benchmark_share": 0.4193286582850391,
+        "n_benchmarks": 5,
+        "n_datasets": 52,
+        "n_obs": 226,
+        "singular": true,
+        "variance_components": {
+          "Residual": 0.382594,
+          "benchmark": 0.0347969,
+          "benchmark:dataset": 0.0,
+          "method:benchmark": 0.301416
+        },
+        "warnings": []
+      },
+      "four": {
+        "method_benchmark_share": 0.22571245604620638,
+        "n_benchmarks": 4,
+        "n_datasets": 22,
+        "n_obs": 106,
+        "singular": true,
+        "variance_components": {
+          "Residual": 0.533674,
+          "benchmark": 0.0,
+          "benchmark:dataset": 0.0,
+          "method:benchmark": 0.155571
+        },
+        "warnings": []
+      },
+      "three": {
+        "method_benchmark_share": 0.16658404805219237,
+        "n_benchmarks": 3,
+        "n_datasets": 20,
+        "n_obs": 100,
+        "singular": true,
+        "variance_components": {
+          "Residual": 0.533499,
+          "benchmark": 0.0,
+          "benchmark:dataset": 0.0,
+          "method:benchmark": 0.106636
+        },
+        "warnings": []
+      }
+    },
     "source_variance_five": {
-      "aic": 484.618054449099,
+      "aic": 484.618,
       "formula": "score ~ method + (1 | benchmark) + (1 | benchmark:dataset) +      (1 | method:benchmark)",
-      "loglik": -233.309027224549,
+      "loglik": -233.309,
       "lrt_pvalue": {
-        "benchmark": 0.353993040907582,
+        "benchmark": 0.353993,
         "benchmark:dataset": 0.5,
-        "method:benchmark": 6.85888683879399e-15
+        "method:benchmark": 6.85889e-15
       },
       "lrt_statistic": {
-        "benchmark": 0.140296849602919,
+        "benchmark": 0.140297,
         "benchmark:dataset": 0.0,
-        "method:benchmark": 59.273990284314
+        "method:benchmark": 59.274
       },
       "method_effect_se": [
         0.309136491430429,
@@ -294,10 +423,10 @@
       "n_obs": 226,
       "singular": true,
       "variance_components": {
-        "Residual": 0.382593569459919,
-        "benchmark": 0.0347969243278193,
+        "Residual": 0.382594,
+        "benchmark": 0.0347969,
         "benchmark:dataset": 0.0,
-        "method:benchmark": 0.301416280032049
+        "method:benchmark": 0.301416
       },
       "warnings": []
     }
@@ -333,9 +462,9 @@
         "Darin"
       ],
       "factor_shares": {
-        "aggregation": 0.0026986963015738215,
-        "dataset": 0.963193310296449,
-        "weighting": 0.0021734205000200997
+        "aggregation": 0.0026987,
+        "dataset": 0.963193,
+        "weighting": 0.00217342
       },
       "headline_best_rank": 1,
       "headline_rank_span": 17,
@@ -356,74 +485,74 @@
   },
   "metric_sets": {
     "alpha_by_group": {
-      "batch": 0.6176532982432561,
-      "bio": 0.8511775085887301
+      "batch": 0.617653,
+      "bio": 0.851178
     },
     "alpha_if_dropped": [
       [
         "ari",
         "bio",
-        0.7981922039656981
+        0.798192
       ],
       [
         "asw_label",
         "bio",
-        0.8494282486782585
+        0.849428
       ],
       [
         "cell_cycle_conservation",
         "bio",
-        0.8281393479621173
+        0.828139
       ],
       [
         "clisi",
         "bio",
-        0.8380402055633119
+        0.83804
       ],
       [
         "isolated_label_asw",
         "bio",
-        0.8401881529980921
+        0.840188
       ],
       [
         "isolated_label_f1",
         "bio",
-        0.8583096112783586
+        0.85831
       ],
       [
         "nmi",
         "bio",
-        0.7917390387087733
+        0.791739
       ],
       [
         "asw_batch",
         "batch",
-        0.549010828626036
+        0.549011
       ],
       [
         "graph_connectivity",
         "batch",
-        0.4647132471301238
+        0.464713
       ],
       [
         "ilisi",
         "batch",
-        0.4710397195899768
+        0.47104
       ],
       [
         "kbet",
         "batch",
-        0.6198852904802296
+        0.619885
       ],
       [
         "pcr",
         "batch",
-        0.6708927285644785
+        0.670893
       ]
     ],
     "convergent_by_group": {
-      "batch": 0.24419092268819162,
-      "bio": 0.44966020056726236
+      "batch": 0.244191,
+      "bio": 0.44966
     },
     "groups": {
       "ari": "bio",
@@ -470,20 +599,20 @@
       "bio": 2
     },
     "pc1_explained_by_group": {
-      "batch": 0.42202704108156014,
-      "bio": 0.5435514678309818
+      "batch": 0.422027,
+      "bio": 0.543551
     }
   },
   "software": {
     "R": "4.5.3",
-    "beam": "0.2.0",
-    "beam_commit": "0b23686",
+    "beam": "0.3.0",
+    "beam_commit": "v0.3.0-1-ga198e48-dirty",
     "lme4": "2.0.6",
     "meta": "8.5.0",
     "netmeta": "3.6.1",
     "numpy": "2.5.3",
     "pymcdm": "1.4.0",
-    "python": "3.14.7",
+    "python": "3.14.8",
     "scipy": "1.18.1"
   }
 }

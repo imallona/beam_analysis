@@ -13,3 +13,6 @@ dependencies = [
 
 [tool.ruff]
 line-length = 100
+
+[tool.ruff.lint.isort]
+known-first-party = ["beam", "paper_figures"]

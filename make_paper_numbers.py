@@ -19,14 +19,20 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from beam.datasets import load_pancreas_contrast
 from paper_figures import _common as C
+from paper_figures import figure4_integration as F4
 
 OUTPUT = Path(__file__).resolve().parent / "results" / "numbers.json"
 MAX_ARRAY_CELLS = 400
 
 
 def plain(value):
-    """Reduce a beam report to JSON types, leaving out large arrays."""
+    """Reduce a beam report to JSON types, leaving out large arrays.
+
+    Floats are rounded to six significant digits so that reruns on other
+    machines reproduce the file exactly.
+    """
     if dataclasses.is_dataclass(value) and not isinstance(value, type):
         fields = {f.name: plain(getattr(value, f.name)) for f in dataclasses.fields(value)}
         return {name: field for name, field in fields.items() if field is not None}
@@ -39,8 +45,8 @@ def plain(value):
     if isinstance(value, (list, tuple, set, frozenset)):
         items = [plain(item) for item in value]
         return items if len(items) <= MAX_ARRAY_CELLS else None
-    if isinstance(value, float) and not np.isfinite(value):
-        return None
+    if isinstance(value, float):
+        return float(f"{value:.6g}") if np.isfinite(value) else None
     return value
 
 
@@ -123,7 +129,6 @@ def duo_numbers():
 
 def m4_numbers():
     from beam.datasets import load_m4
-
     from paper_figures.figure3_domains import _m4_rank_sensitivity
 
     m4 = load_m4()
@@ -138,7 +143,6 @@ def m4_numbers():
 def gptcelltype_numbers():
     from beam.datasets import load_gptcelltype
     from beam.mcda import critical_difference
-
     from paper_figures.figure3_domains import _GPT_HEAD
 
     gpt = load_gptcelltype()
@@ -176,11 +180,46 @@ def metric_set_numbers():
     }
 
 
-def integration_numbers():
-    from beam.datasets import load_integration_benchmarks, load_pancreas_contrast
-    from beam.heterogeneity import network_meta_analysis
+def source_variance_fit(benchmarks, keep):
+    """The fit on a benchmark subset, reduced to what the text reports."""
+    from beam.heterogeneity import RExecutionError
 
-    from paper_figures import figure4_integration as F4
+    try:
+        report = F4._source_variance(benchmarks, keep)
+    except (RExecutionError, ValueError) as exc:
+        return {"error": str(exc)}
+    return {
+        "method_benchmark_share": report.method_benchmark_share,
+        "variance_components": plain(report.variance_components),
+        "singular": report.singular,
+        "n_obs": report.n_obs,
+        "n_datasets": report.n_datasets,
+        "n_benchmarks": report.n_benchmarks,
+        "warnings": list(report.warnings),
+    }
+
+
+def pancreas_numbers():
+    from scipy.stats import spearmanr
+
+    pc = load_pancreas_contrast()
+    test = spearmanr(pc.tran_mean_rank, pc.scib_mean_rank)
+    tran_top, scib_top = pc.top_method()
+    return {
+        "methods": list(pc.methods),
+        "metrics": list(pc.metrics),
+        "n_methods": len(pc.methods),
+        "spearman": float(test.correlation),
+        "spearman_pvalue": float(test.pvalue),
+        "tran_mean_rank": dict(zip(pc.methods, plain(pc.tran_mean_rank), strict=True)),
+        "scib_mean_rank": dict(zip(pc.methods, plain(pc.scib_mean_rank), strict=True)),
+        "top_method": {"Tran": tran_top, "scIB": scib_top},
+    }
+
+
+def integration_numbers():
+    from beam.datasets import load_integration_benchmarks
+    from beam.heterogeneity import network_meta_analysis
 
     benchmarks = load_integration_benchmarks()
     source_sets = {
@@ -188,13 +227,19 @@ def integration_numbers():
         "four": F4.FOUR_SOURCES,
         "five": F4.FIVE_SOURCES,
     }
+    fits = {label: source_variance_fit(benchmarks, keep) for label, keep in source_sets.items()}
+    arms = benchmarks.network_arms()
     return {
+        "n_records": len(benchmarks.rank),
+        "benchmarks": sorted(set(benchmarks.benchmark)),
         "method_benchmark_share": {
-            label: plain(F4._safe_share(benchmarks, keep)) for label, keep in source_sets.items()
+            label: fit.get("method_benchmark_share", float("nan")) for label, fit in fits.items()
         },
+        "source_variance_fits": fits,
         "source_variance_five": plain(F4._source_variance(benchmarks, F4.FIVE_SOURCES)),
-        "network_meta_analysis": plain(network_meta_analysis(*benchmarks.network_arms())),
-        "pancreas_spearman": float(load_pancreas_contrast().spearman()),
+        "network_arms": {"n_arms": len(arms[0]), "n_studies": len(set(arms[1]))},
+        "network_meta_analysis": plain(network_meta_analysis(*arms)),
+        "pancreas": pancreas_numbers(),
     }
 
 
@@ -204,19 +249,48 @@ def attribution_numbers():
     return plain(_attribution_report())
 
 
+def blinding_numbers():
+    """The blinded Duo run against the named one, with the seal fingerprint."""
+    import beam
+    from beam.blinding import blind
+
+    duo, run = C.duo_run()
+    scores = beam.Scores(
+        values=duo.tensor(C.DUO_METRICS),
+        tool_names=tuple(duo.method_names),
+        metric_ids=C.DUO_METRICS,
+        dataset_names=duo.dataset_names,
+        layout="long",
+    )
+    blinded, seal = blind(scores, seed=0)
+    blinded_run = beam.rank(blinded, weights="equal", method="saw", seed=0, sensitivity=False)
+    unblinded = list(seal.translate(blinded_run.tool_names))
+    named_order = [run.tool_names[i] for i in np.argsort(run.result.ranks, kind="stable")]
+    unblinded_order = [unblinded[i] for i in np.argsort(blinded_run.result.ranks, kind="stable")]
+    identical = sum(a == b for a, b in zip(named_order, unblinded_order, strict=True))
+    return {
+        "n_methods": len(named_order),
+        "identical_positions": identical,
+        "named_order": named_order,
+        "unblinded_order": unblinded_order,
+        "seal_sha256_prefix": seal.fingerprint[:16],
+        "seed": seal.seed,
+    }
+
+
 def beam_commit():
     import subprocess
 
     import beam
 
     source = Path(beam.__file__).resolve().parent
-    result = subprocess.run(
-        ["git", "-C", str(source), "rev-parse", "--short", "HEAD"],
+    describe = subprocess.run(
+        ["git", "-C", str(source), "describe", "--tags", "--always", "--dirty"],
         capture_output=True,
         text=True,
         check=False,
     )
-    return result.stdout.strip() or None
+    return describe.stdout.strip() or None
 
 
 def r_versions():
@@ -254,6 +328,7 @@ def main() -> int:
         "m4": m4_numbers(),
         "gptcelltype": gptcelltype_numbers(),
         "metric_sets": metric_set_numbers(),
+        "blinding": blinding_numbers(),
     }
     for key, build in (("integration", integration_numbers), ("attribution", attribution_numbers)):
         try:

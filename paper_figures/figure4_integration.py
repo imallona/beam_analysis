@@ -26,6 +26,7 @@ from beam.datasets import (
     load_pancreas_contrast,
 )
 from beam.heterogeneity import (
+    RExecutionError,
     RNotAvailableError,
     netmeta_available,
     network_meta_analysis,
@@ -86,7 +87,7 @@ def _safe_share(ib, keep):
     """method-by-benchmark share on a benchmark subset, nan if the fit fails."""
     try:
         return _source_variance(ib, keep).method_benchmark_share
-    except Exception:
+    except (RExecutionError, ValueError):
         return float("nan")
 
 
